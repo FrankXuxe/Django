@@ -18,6 +18,10 @@ py manage.py runserver
 py manage.py startapp MainApp
 -m pip install -U autopep8
 py manage.py makemigrations
-py manage.py migrate
+py manage.py migrate (change on admin.py file)
 py manage.py createsuperuser
+
+model - admin - url - create new urls.py file
+create new folder in newapp - template- mainapp
+
 '''
