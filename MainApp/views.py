@@ -1,3 +1,4 @@
+from typing import NewType
 from django.shortcuts import render, redirect
 
 from .forms import TopicForm, EntryForm
@@ -40,7 +41,10 @@ def new_topic(request):
 # The first one is loading up a empty form. 
 
         if form.is_valid():
-            form.save()
+            new_topic = form.save(commit=False)
+            new_topic.owner = request.user
+            new_topic.save()
+
 
             return redirect('MainApp:topics')
     
@@ -68,6 +72,9 @@ def edit_entry(request, entry_id):
     """Edit an existing Entry"""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
+
+    if topic.owner != request.user:
+        raise Http404
 
     if request.method != 'POST':
         # This argument tells Django to create the form prefilled with information from the existing entry object.
